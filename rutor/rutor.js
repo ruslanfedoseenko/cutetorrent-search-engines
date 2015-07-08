@@ -18,7 +18,7 @@ RutorSearchProvider.InitPlugin = function() {
 }
 
 RutorSearchProvider.BuildUrl = function(token, category, page) {
-    if (category === Enums.All)
+    	if (category === Enums.All)
 	{
 		return "http://alt.rutor.org/search/" + (page - 1) + "/0/110/2/" + token;	
 	}
@@ -32,15 +32,15 @@ RutorSearchProvider.BuildUrl = function(token, category, page) {
 RutorSearchProvider.OnHtmlResultReady = function()
 {
 	
-		if (this.htmlResult !== undefined)
+	if (this.htmlResult !== undefined)
+	{
+		var tableBody = this.htmlResult.getElementsByName("tr","class", "gai");
+		tableBody.push.apply(tableBody, this.htmlResult.getElementsByName("tr","class", "tum"))
+		if (tableBody.length > 0)
 		{
-			var tableBody = this.htmlResult.getElementsByName("tr","class", "gai");
-			tableBody.push.apply(tableBody, this.htmlResult.getElementsByName("tr","class", "tum"))
-			if (tableBody.length > 0)
-			{
-				this.ParseTableBody(tableBody);
-			}
+			this.ParseTableBody(tableBody);
 		}
+	}
 }
 
 RutorSearchProvider.ParseTableBody = function(tableBody)
