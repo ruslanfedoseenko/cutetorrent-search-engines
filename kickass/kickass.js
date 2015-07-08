@@ -5,7 +5,7 @@ KickassSearchProvider.InitPlugin = function() {
 	this.supportedCategories = Enums.All;
 	this.responseType = Enums.JSON;
 	this.requestType = Enums.GET;
-    this.category_map = [];
+    	this.category_map = [];
 	this.category_map[Enums.Anime]="anime";
 	this.category_map[Enums.Music]="music";
 	this.category_map[Enums.TV]="tv";
@@ -18,13 +18,13 @@ KickassSearchProvider.InitPlugin = function() {
 }
 
 KickassSearchProvider.BuildUrl = function(token, category, page) {
-    if (category === Enums.All)
+    	if (category === Enums.All)
 	{
 		return "http://kat.cr/json.php?q=" +token + "&field=seeders&order=desc&page=" + page.toString();	
 	}
 	else
 	{
-        return "http://kat.cr/json.php?q=" + token + "+category:" + this.category_map[category] + "&field=seeders&order=desc&page=" + page.toString();
+        	return "http://kat.cr/json.php?q=" + token + "+category:" + this.category_map[category] + "&field=seeders&order=desc&page=" + page.toString();
 	}
 	
 }
@@ -39,7 +39,7 @@ KickassSearchProvider.OnJsonResultReady = function()
         {
             var item = this.jsonResult.list[i];
             var searchResult = new SearchResult();
-			searchResult.engine = this.name;
+            searchResult.engine = this.name;
             searchResult.name = item.title;
             searchResult.torrentFileUrl = item.torrentLink;
             searchResult.torrentDescUrl = item.link;
