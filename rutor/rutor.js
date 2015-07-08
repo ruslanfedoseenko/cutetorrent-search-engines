@@ -5,7 +5,7 @@ RutorSearchProvider.InitPlugin = function() {
 	this.supportedCategories = Enums.All;
 	this.responseType = Enums.HTML
 	this.requestType = Enums.GET;
-    this.category_map = [];
+    	this.category_map = [];
 	this.category_map[Enums.Anime]="10";
 	this.category_map[Enums.Music]="2";
 	this.category_map[Enums.TV]="6";
@@ -14,7 +14,7 @@ RutorSearchProvider.InitPlugin = function() {
 	this.category_map[Enums.Games]="8";
 	this.category_map[Enums.Books]="11";
 	this.category_map[Enums.Movie]="1";
-    RutorSearchProvider.HtmlResultReady.connect(RutorSearchProvider, "OnHtmlResultReady");
+    	RutorSearchProvider.HtmlResultReady.connect(RutorSearchProvider, "OnHtmlResultReady");
 }
 
 RutorSearchProvider.BuildUrl = function(token, category, page) {
@@ -24,7 +24,7 @@ RutorSearchProvider.BuildUrl = function(token, category, page) {
 	}
 	else
 	{
-        return "http://alt.rutor.org/search/" + (page - 1) + "/" + this.category_map[category] + "/110/2/" + token;
+        	return "http://alt.rutor.org/search/" + (page - 1) + "/" + this.category_map[category] + "/110/2/" + token;
 	}
 	
 }
