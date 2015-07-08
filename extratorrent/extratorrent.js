@@ -18,13 +18,13 @@ ExtratorrentSearchProvider.InitPlugin = function() {
 }
 
 ExtratorrentSearchProvider.BuildUrl = function(token, category, page) {
-    if (category === Enums.All)
+	 if (category === Enums.All)
 	{
 		return "http://extratorrent.cc/advanced_search/?with=" + token + "&page=" + page;
 	}
 	else
 	{
-        return "http://extratorrent.cc/advanced_search/?with=" + token + "&s_cat=" + this.category_map[category] +"&page=" + page;
+        	return "http://extratorrent.cc/advanced_search/?with=" + token + "&s_cat=" + this.category_map[category] +"&page=" + page;
 	}
 	
 }
