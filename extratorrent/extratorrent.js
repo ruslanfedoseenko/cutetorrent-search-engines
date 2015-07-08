@@ -14,7 +14,7 @@ ExtratorrentSearchProvider.InitPlugin = function() {
 	this.category_map[Enums.Games]="3";
 	this.category_map[Enums.Books]="2";
 	this.category_map[Enums.Movie]="4";
-    ExtratorrentSearchProvider.HtmlResultReady.connect(ExtratorrentSearchProvider, "OnHtmlResultReady");
+    	ExtratorrentSearchProvider.HtmlResultReady.connect(ExtratorrentSearchProvider, "OnHtmlResultReady");
 }
 
 ExtratorrentSearchProvider.BuildUrl = function(token, category, page) {
