@@ -89,7 +89,7 @@ ExtratorrentSearchProvider.ParseTableBody = function(tableBody)
 						if (child.Name.toUpperCase() === "A")
 						{
 							curremtSearchResult = new SearchResult();
-							curremtSearchResult.torrentFileUrl = this.url + child.getAttributeValue("href");
+							curremtSearchResult.torrentFileUrl = this.url + child.getAttributeValue("href").replace("torrent_download", "download");
 							break;
 						}
 					}
