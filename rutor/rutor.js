@@ -5,7 +5,7 @@ RutorSearchProvider.InitPlugin = function() {
 	this.supportedCategories = Enums.All;
 	this.responseType = Enums.HTML
 	this.requestType = Enums.GET;
-    this.category_map = [];
+    	this.category_map = [];
 	this.category_map[Enums.Anime]="10";
 	this.category_map[Enums.Music]="2";
 	this.category_map[Enums.TV]="6";
@@ -14,17 +14,17 @@ RutorSearchProvider.InitPlugin = function() {
 	this.category_map[Enums.Games]="8";
 	this.category_map[Enums.Books]="11";
 	this.category_map[Enums.Movie]="1";
-    RutorSearchProvider.HtmlResultReady.connect(RutorSearchProvider, "OnHtmlResultReady");
+    	RutorSearchProvider.HtmlResultReady.connect(RutorSearchProvider, "OnHtmlResultReady");
 }
 
 RutorSearchProvider.BuildUrl = function(token, category, page) {
-    if (category === Enums.All)
+    	if (category === Enums.All)
 	{
 		return "http://alt.rutor.org/search/" + (page - 1) + "/0/110/2/" + token;	
 	}
 	else
 	{
-        return "http://alt.rutor.org/search/" + (page - 1) + "/" + this.category_map[category] + "/110/2/" + token;
+        	return "http://alt.rutor.org/search/" + (page - 1) + "/" + this.category_map[category] + "/110/2/" + token;
 	}
 	
 }
@@ -32,15 +32,15 @@ RutorSearchProvider.BuildUrl = function(token, category, page) {
 RutorSearchProvider.OnHtmlResultReady = function()
 {
 	
-		if (this.htmlResult !== undefined)
+	if (this.htmlResult !== undefined)
+	{
+		var tableBody = this.htmlResult.getElementsByName("tr","class", "gai");
+		tableBody.push.apply(tableBody, this.htmlResult.getElementsByName("tr","class", "tum"))
+		if (tableBody.length > 0)
 		{
-			var tableBody = this.htmlResult.getElementsByName("tr","class", "gai");
-			tableBody.push.apply(tableBody, this.htmlResult.getElementsByName("tr","class", "tum"))
-			if (tableBody.length > 0)
-			{
-				this.ParseTableBody(tableBody);
-			}
+			this.ParseTableBody(tableBody);
 		}
+	}
 }
 
 RutorSearchProvider.ParseTableBody = function(tableBody)

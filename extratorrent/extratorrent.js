@@ -14,17 +14,17 @@ ExtratorrentSearchProvider.InitPlugin = function() {
 	this.category_map[Enums.Games]="3";
 	this.category_map[Enums.Books]="2";
 	this.category_map[Enums.Movie]="4";
-    ExtratorrentSearchProvider.HtmlResultReady.connect(ExtratorrentSearchProvider, "OnHtmlResultReady");
+    	ExtratorrentSearchProvider.HtmlResultReady.connect(ExtratorrentSearchProvider, "OnHtmlResultReady");
 }
 
 ExtratorrentSearchProvider.BuildUrl = function(token, category, page) {
-    if (category === Enums.All)
+	 if (category === Enums.All)
 	{
 		return "http://extratorrent.cc/advanced_search/?with=" + token + "&page=" + page;
 	}
 	else
 	{
-        return "http://extratorrent.cc/advanced_search/?with=" + token + "&s_cat=" + this.category_map[category] +"&page=" + page;
+        	return "http://extratorrent.cc/advanced_search/?with=" + token + "&s_cat=" + this.category_map[category] +"&page=" + page;
 	}
 	
 }
