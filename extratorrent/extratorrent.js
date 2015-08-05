@@ -123,18 +123,48 @@ ExtratorrentSearchProvider.ParseTableBody = function(tableBody)
 					sizeStrLowerCase = sizeStr.toLowerCase();
 					if (sizeStrLowerCase.indexOf(" tb") > -1 ||  sizeStrLowerCase.indexOf(" gb") > -1 || sizeStrLowerCase.indexOf(" mb") > -1 || sizeStrLowerCase.indexOf(" kb") > -1 || sizeStrLowerCase.indexOf(" b") > -1)
 					{
-						var parts1 = sizeStr.split(' ');
-						
-						var size = parseFloat(parts1[0]);
-						
-						if (!isNaN(size))
+						var parts1 = sizeStrLowerCase.split(' ');
+						if (parts1.length > 1)
 						{
-							curremtSearchResult.size = sizeStr;
+							
+							var size = parseFloat(parts1[0]);
+							var kbPart = parts1[1];
+							print("Size:");
+							print(size);
+							print(kbPart);
+							switch(kbPart[0])
+							{
+								case 'k':
+								{
+									size*=1024;
+									break;
+								}
+								case 'm':
+								{
+									size*=1024*1024;
+									break;
+								}
+								case 'g':
+								{
+									size*=1024*1024*1024;
+									break;
+								}
+								case 't':
+								{
+									size*=1024*1024*1024*1024;
+									break;
+								}
+							}
+							if (!isNaN(size))
+							{
+								curremtSearchResult.size = size;
+							}
+							else
+							{
+								curremtSearchResult.size = -1;
+							}	
 						}
-						else
-						{
-							curremtSearchResult.size = -1;
-						}
+						
 					}
 					break;
 				}
