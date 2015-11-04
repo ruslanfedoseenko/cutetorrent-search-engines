@@ -31,7 +31,6 @@ KickassSearchProvider.BuildUrl = function(token, category, page) {
 
 KickassSearchProvider.OnJsonResultReady = function()
 {
-    print("OnJsonResultReady called");
     if (this.jsonResult !== undefined && this.jsonResult.list!== undefined)
     {
         var searchResults = [];

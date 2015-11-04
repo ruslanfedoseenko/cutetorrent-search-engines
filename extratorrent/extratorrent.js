@@ -129,9 +129,6 @@ ExtratorrentSearchProvider.ParseTableBody = function(tableBody)
 							
 							var size = parseFloat(parts1[0]);
 							var kbPart = parts1[1];
-							print("Size:");
-							print(size);
-							print(kbPart);
 							switch(kbPart[0])
 							{
 								case 'k':

@@ -1,11 +1,11 @@
 var RutorSearchProvider = new CustomScriptSearchProvider();
 RutorSearchProvider.InitPlugin = function() {
 	this.name = "Rutor";
-	this.url = "http://alt.rutor.org/";
+	this.url = "http://rutor.org/";
 	this.supportedCategories = Enums.All;
 	this.responseType = Enums.HTML
 	this.requestType = Enums.GET;
-    	this.category_map = [];
+    this.category_map = [];
 	this.category_map[Enums.Anime]="10";
 	this.category_map[Enums.Music]="2";
 	this.category_map[Enums.TV]="6";
@@ -14,17 +14,17 @@ RutorSearchProvider.InitPlugin = function() {
 	this.category_map[Enums.Games]="8";
 	this.category_map[Enums.Books]="11";
 	this.category_map[Enums.Movie]="1";
-    	RutorSearchProvider.HtmlResultReady.connect(RutorSearchProvider, "OnHtmlResultReady");
+    RutorSearchProvider.HtmlResultReady.connect(RutorSearchProvider, "OnHtmlResultReady");
 }
 
 RutorSearchProvider.BuildUrl = function(token, category, page) {
     	if (category === Enums.All)
 	{
-		return "http://alt.rutor.org/search/" + (page - 1) + "/0/110/2/" + token;	
+		return "http://rutor.org/search/" + (page - 1) + "/0/110/2/" + token;	
 	}
 	else
 	{
-        	return "http://alt.rutor.org/search/" + (page - 1) + "/" + this.category_map[category] + "/110/2/" + token;
+        return "http://rutor.org/search/" + (page - 1) + "/" + this.category_map[category] + "/110/2/" + token;
 	}
 	
 }
@@ -69,7 +69,7 @@ RutorSearchProvider.ParseTableBody = function(tableBody)
 						{
 							var url = child.getAttributeValue("href");
 							
-							if (url.indexOf("http://d.rutor.org") === 0)
+							if (url.indexOf("/download") === 0)
 							{
 								curremtSearchResult = new SearchResult();
 								curremtSearchResult.torrentFileUrl = url;
@@ -99,9 +99,6 @@ RutorSearchProvider.ParseTableBody = function(tableBody)
 						
 						var size = parseFloat(parts1[0]);
 						var kbPart = parts1[1];
-						print("Size:");
-						print(size);
-						print(kbPart);
 						switch(kbPart[0])
 						{
 							case 'k':
