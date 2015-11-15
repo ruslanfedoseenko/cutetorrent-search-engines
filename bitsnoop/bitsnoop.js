@@ -15,31 +15,30 @@ BitSnoopProvider.InitPlugin = function() {
 	this.category_map[Enums.Games]="games";
 	this.category_map[Enums.Books]="all";
 	this.category_map[Enums.Movie]="video";
+	this.custom_headers = {};
 	this.custom_headers["Host"] ="bitsnoop.com";
 	this.custom_headers["Connection"] ="keep-alive";
-	this.custom_headers["Cache-Control"] ="max-age=0";
 	this.custom_headers["Accept"] ="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
 	this.custom_headers["User-Agent"] =" Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
-	this.custom_headers["Accept-Encoding"] ="gzip, deflate, sdch";
-	this.custom_headers["Accept-Language"] ="ru,en-US;q=0.8,en;q=0.6";
+	this.custom_headers["Accept-Encoding"] ="deflate, sdch";
+	this.custom_headers["Accept-Language"] ="ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,eu;q=0.2,uk;q=0.2,fr;q=0.2";
 	
     BitSnoopProvider.HtmlResultReady.connect(BitSnoopProvider, "OnHtmlResultReady");
 }
 
 BitSnoopProvider.BuildUrl = function(token, category, page) {
-	
-    return "http://bitsnoop.com/search?q=" +token + "&t=" +  this.category_map[category];
+	var url = "http://bitsnoop.com/search/"+this.category_map[category]+"/" +token + "/c/d/1/";
+	this.custom_headers["Referer"] = url;
+    return url+ "?fmt=rss";
 	
 	
 }
 
 BitSnoopProvider.OnHtmlResultReady = function()
 {
-	print("OnHtmlResultReady");
 	if (this.htmlResult !== undefined)
 	{
-		var tableBody = this.htmlResult.getElementsByName("ol","id", "torrents");
-		
+		var tableBody = this.htmlResult.getElementsByName("item");
 		if (tableBody.length > 0)
 		{
 			this.ParseTableBody(tableBody);
@@ -49,31 +48,43 @@ BitSnoopProvider.OnHtmlResultReady = function()
 
 BitSnoopProvider.ParseTableBody = function(tableBody)
 {
-	var traverseQueue = [];
-	traverseQueue.push.apply(traverseQueue, tableBody);
-	var tdCounter = 0;
 	var searchResults = [];
-	var curremtSearchResult;
-	while(traverseQueue.length > 0)
+	
+	for(var i=0; i< tableBody.length; i++)
 	{
-		var currentTag = traverseQueue.shift();
-		traverseQueue.push.apply(traverseQueue, currentTag.Children);
-		var curremtSearchResult;
-		if (currentTag.Name.toUpperCase() == "LI")
+		var curremtSearchResult = new SearchResult();
+		var searchItem = tableBody[i];
+		for(var j =0; j< searchItem.Children.length; j++)
 		{
-			for(var i = 0; i < currentTag.Children.length; i++)
+			var child = searchItem.Children[j];
+			if (child.Name.toUpperCase() == "TITLE")
 			{
-				var child = currentTag.Children[i];
-				if (child.Name.toUpperCase == "DIV" && child.checkAttribute("id", "sz"))
-				{
-					var sizeItem = child.Children[0].Children[0].Children[0];
-					if (sizeItem)
-					{
-						print(this.htmlResult.getInnerText(sizeItem));
-					}
-				}
+				curremtSearchResult.name = this.htmlResult.getInnerText(child);
 			}
+			else if(child.Name.toUpperCase() == "LINK")
+			{
+				curremtSearchResult.torrentDescUrl = this.htmlResult.getInnerText(child);
+			}
+			else if(child.Name.toUpperCase() == "ENCLOSURE" && child.checkAttribute("type", "application/x-bittorrent"))
+			{
+				curremtSearchResult.torrentFileUrl = child.getAttributeValue("url");
+			}
+			else if(child.Name.toUpperCase() == "SIZE")
+			{
+				curremtSearchResult.size = this.htmlResult.getInnerText(child);
+			}
+			else if(child.Name.toUpperCase() == "NUMSEEDERS")
+			{
+				curremtSearchResult.seeders = this.htmlResult.getInnerText(child);
+			}
+			else if(child.Name.toUpperCase() == "NUMLEECHERS")
+			{
+				curremtSearchResult.leechers = this.htmlResult.getInnerText(child);
+			}
+			
 		}
+		curremtSearchResult.engine = this.name;
+		searchResults.push(curremtSearchResult);
 	}
 	
 	this.SearchReady(searchResults);

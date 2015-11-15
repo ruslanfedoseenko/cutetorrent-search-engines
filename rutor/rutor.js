@@ -72,7 +72,8 @@ RutorSearchProvider.ParseTableBody = function(tableBody)
 							if (url.indexOf("/download") === 0)
 							{
 								curremtSearchResult = new SearchResult();
-								curremtSearchResult.torrentFileUrl = url;
+								curremtSearchResult.torrentFileUrl = this.url + url;
+							
 							}
 							else if (url.indexOf("/torrent") === 0)
 							{
@@ -124,7 +125,7 @@ RutorSearchProvider.ParseTableBody = function(tableBody)
 						}
 						if (!isNaN(size))
 						{
-							curremtSearchResult.size = sizeStr;
+							curremtSearchResult.size = size;
 						}
 						else
 						{
